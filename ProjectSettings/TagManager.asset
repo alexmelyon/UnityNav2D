@@ -41,3 +41,18 @@ TagManager:
   - name: Default
     uniqueID: 0
     locked: 0
+  - name: Water
+    uniqueID: 637152525
+    locked: 0
+  - name: Grass
+    uniqueID: 1326662975
+    locked: 0
+  - name: Player
+    uniqueID: 73676657
+    locked: 0
+  - name: Walls
+    uniqueID: 3429851023
+    locked: 0
+  - name: Props
+    uniqueID: 1469414359
+    locked: 0

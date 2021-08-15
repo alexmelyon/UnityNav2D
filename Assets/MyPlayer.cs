@@ -5,13 +5,18 @@ using UnityEngine.AI;
 
 public class MyPlayer : MonoBehaviour
 {
-    public MyTarget target;
+    public MoveTarget target;
+    public LookTarget lookTarget;
 
     private void Awake()
     {
         if(target == null)
         {
-            target = FindObjectOfType<MyTarget>();
+            target = FindObjectOfType<MoveTarget>();
+        }
+        if(lookTarget == null)
+        {
+            lookTarget = FindObjectOfType<LookTarget>();
         }
     }
 
@@ -23,6 +28,34 @@ public class MyPlayer : MonoBehaviour
     }
 
     void Update()
+    {
+        MoveAgent();
+        DrawSight();
+    }
+
+    private void DrawSight()
+    {
+        var direction = (lookTarget.transform.position - this.transform.position);
+        bool isVisible = false;
+        int layer = LayerMask.GetMask("Wall");
+        RaycastHit2D hit = Physics2D.Raycast(this.transform.position, direction, 1000F, 1 << layer);
+        if(hit.collider != null)
+        {
+            Debug.Log("HIT " + hit.collider.gameObject.name);
+            if(lookTarget.gameObject == hit.collider.gameObject)
+            {
+                isVisible = true;
+            }
+        }
+        Color c = Color.red;
+        if(isVisible)
+        {
+            c = Color.green;
+        }
+        Debug.DrawRay(this.transform.position, direction, c);
+    }
+
+    private void MoveAgent()
     {
         var agent = GetComponent<NavMeshAgent>();
         bool isTargetFar = (target.transform.position - this.transform.position).magnitude > 0.1;
