@@ -24,10 +24,13 @@ public class MyPlayer : MonoBehaviour
 
     void Update()
     {
-        if(target != null && (target.transform.position - this.transform.position).magnitude > 0.1)
+        var agent = GetComponent<NavMeshAgent>();
+        bool isTargetFar = (target.transform.position - this.transform.position).magnitude > 0.1;
+        bool isDestinationChanged = (target.transform.position - agent.destination).magnitude > 0.1;
+        if (target != null && isTargetFar && isDestinationChanged)
         {
-            Debug.Log(gameObject.name + " MOVE " + target.transform.position);
-            GetComponent<NavMeshAgent>().SetDestination(target.transform.position);
+            Debug.Log(gameObject.name + " TARGET=" + target.transform.position + " DEST=" + agent.destination);
+            agent.SetDestination(target.transform.position);
         }
     }
 }
